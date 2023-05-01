@@ -1,0 +1,10 @@
+---
+- name: Install Google Chrome
+  hosts: all
+  become: true
+  gather_facts: false
+  
+  tasks:
+  - name: Add Google Chrome repo
+    debug:
+      msg: "Hello, world!"
