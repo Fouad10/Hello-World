@@ -1,14 +1,11 @@
 ---
-- name: Install Google Chrome on Windows
+- name: Install Google Chrome on Windows hosts
   hosts: all
-  gather_facts: false
+  become: true
+  gather_facts: true
 
   tasks:
-    - name: Install Chocolatey
-      win_shell: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-    - name: Install Google Chrome with Chocolatey
-      win_chocolatey:
+    - name: Install Google Chrome
+      chocolatey.chocolatey.win_chocolatey:
         name: googlechrome
         state: present
