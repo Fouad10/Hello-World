@@ -1,8 +1,7 @@
 ---
 - name: Install Google Chrome on Windows hosts
   hosts: all
-  become: true
-  gather_facts: true
+  gather_facts: false
 
   tasks:
     - name: Install Google Chrome
