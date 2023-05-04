@@ -1,18 +1,15 @@
 ---
-- name: Uninstall Google Chrome
+- name: Install Rufus on Windows
   hosts: all
-  # become: true
+  become: true
   gather_facts: false
 
   tasks:
-    - name: Check if Google Chrome is installed
-      win_package:
-        name: Google Chrome
-        state: absent
-      register: chrome_uninstall
+    - name: Install Chocolatey
+      win_shell: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-    - name: Uninstall Google Chrome
-      win_package:
-        name: Google Chrome
-        state: absent
-      when: chrome_uninstall.changed
+    - name: Install Rufus with Chocolatey
+      win_chocolatey:
+        name: rufus
+        state: present
