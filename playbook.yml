@@ -1,10 +1,15 @@
 ---
-- name: Install Google Chrome on Windows hosts
+- name: Install 7zip with Chocolatey
   hosts: all
   gather_facts: false
 
   tasks:
-    - name: Install Google Chrome
-      chocolatey.chocolatey.win_chocolatey:
-        name: googlechrome
+    - name: Install Chocolatey
+      win_chocolatey:
+        name: chocolatey
         state: present
+
+    - name: Install 7zip with Chocolatey
+      win_chocolatey:
+        name: 7zip
+        state: absent
