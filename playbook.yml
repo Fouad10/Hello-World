@@ -1,7 +1,6 @@
 ---
 - name: Install Rufus on Windows
   hosts: all
-  become: true
   gather_facts: false
 
   tasks:
