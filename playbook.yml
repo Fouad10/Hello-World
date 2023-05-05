@@ -2,9 +2,15 @@
 - name: Uninstall 7-Zip on CentOS Stream 9
   hosts: all
   become: false
+  gather_facts: true
 
   tasks:
+    - name: Install Chocolatey
+      win_chocolatey:
+        name: chocolatey
+        state: present
+
     - name: Uninstall 7-Zip
-      package:
-        name: p7zip
-        state: absent
+      win_chocolatey:
+        name: 7zip
+        state: present
