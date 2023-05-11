@@ -1,12 +1,9 @@
-- name: Uninstall Visual Studio Code on Windows
+- name: Widows machine 
   hosts: all
   gather_facts: true
   become: false
 
   tasks:
-    - name: Wait for Visual Studio Code to be uninstalled
-      wait_for:
-        path: C:\Program Files\Microsoft VS Code
-        state: absent
-        timeout: 300
-        delay: 10
+    - name: reboot system
+      ansible.windows.win_reboot:
+        post_reboot_delay: 120
