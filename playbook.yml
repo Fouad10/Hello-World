@@ -4,11 +4,6 @@
   become: false
 
   tasks:
-    - name: Uninstall Visual Studio Code
-      win_chocolatey:
-        name: vscode
-        state: absent
-
     - name: Wait for Visual Studio Code to be uninstalled
       wait_for:
         path: C:\Program Files\Microsoft VS Code
