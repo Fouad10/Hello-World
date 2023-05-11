@@ -1,3 +1,4 @@
+---
 - name: Uinstall Visual Studio Code on Windows
   hosts: all
   gather_facts:
