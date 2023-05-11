@@ -1,15 +1,11 @@
----
-- name: Install Visual Studio Code on Windows
-  hosts: windows
-  gather_facts: true
+- name: Uinstall Visual Studio Code on Windows
+  hosts: all
+  gather_facts:
+    timeout: 60
   become: false
 
   tasks:
-    - name: Install Chocolatey package manager
-      win_shell: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-    - name: Install Visual Studio Code
+    - name: Uinstall Visual Studio Code
       win_chocolatey:
         name: vscode
         state: absent
