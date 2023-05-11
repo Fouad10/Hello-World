@@ -1,29 +1,18 @@
 ---
-- name: windows target
+- name: Install PyCharm on Windows target
   hosts: all
   become: false
   gather_facts: true
+  tasks:
+    - name: Install Chocolatey package manager
+      win_shell: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
----
-- name: Install VirtualBox
-  hosts: windows
-  gather_facts: no
+    - name: Install PyCharm
+      win_chocolatey:
+        name: pycharm-community
+        version: "{{ pycharm_version }}"
+        state: present
 
   vars:
-    virtualbox_version: "6.1.26"
-    virtualbox_install_path: "C:/Program Files/Oracle/VirtualBox"
-
-  tasks:
-    - name: Download VirtualBox installer
-      win_get_url:
-        url: "https://download.virtualbox.org/virtualbox/{{ virtualbox_version }}/VirtualBox-{{ virtualbox_version }}-Win.exe"
-        dest: "{{ ansible_env.TEMP }}/VirtualBox-{{ virtualbox_version }}-Win.exe"
-      register: download_result
-
-    - name: Install VirtualBox
-      win_package:
-        path: "{{ download_result.dest }}"
-        arguments: "/s"
-        product_id: "{D5A0D9B8-D8A2-49E0-9B28-7D209D8B24A6}"
-        creates_path: "{{ virtualbox_install_path }}"
-      when: download_result.changed
+    pycharm_version: "2021.1.3"
