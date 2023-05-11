@@ -1,26 +1,41 @@
 ---
 - name: windows target
-  hosts: localhost
+  hosts: all
   become: false
   gather_facts: true
 
+  vars:
+    virtualbox_url: "https://download.virtualbox.org/virtualbox/{{ virtualbox_version }}/VirtualBox-{{ virtualbox_version }}-Win.exe"
+    virtualbox_version: "6.1.26"
+    virtualbox_install_path: "C:\Program Files\Oracle\VirtualBox"
+
   tasks:
-    - name: Add Microsoft GPG key
-      rpm_key:
-        key: "https://packages.microsoft.com/keys/microsoft.asc"
+    - name: Download VirtualBox installer
+      win_get_url:
+        url: "{{ virtualbox_url }}"
+        dest: "{{ ansible_env.TEMP }}\VirtualBox.exe"
+
+    - name: Install VirtualBox
+      win_package:
+        path: "{{ ansible_env.TEMP }}\VirtualBox.exe"
+        arguments: "--silent"
+        product_id: "*"
+        product_name: "Oracle VM VirtualBox {{ virtualbox_version }}"
+
+    - name: Set VirtualBox environment variables
+      win_environment:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
         state: present
-  
-    - name: Add VSCode repository
-      yum_repository:
-        name: "vscode"
-        description: "Visual Studio Code"
-        baseurl: "https://packages.microsoft.com/yumrepos/vscode"
-        gpgcheck: yes
-        gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
-        enabled: yes
-        state: present
-  
-    - name: Install VSCode
-      yum:
-        name: code
-        state: present
+        level: machine
+      loop:
+        - { key: "VBOX_INSTALL_PATH", value: "{{ virtualbox_install_path }}" }
+        - { key: "VBOX_MSI_INSTALL_PATH", value: "{{ virtualbox_install_path }}" }
+
+    - name: Verify VirtualBox installation
+      win_command: "{{ virtualbox_install_path }}\VBoxManage.exe --version"
+      register: virtualbox_version_output
+
+    - name: Print VirtualBox version
+      debug:
+        msg: "VirtualBox {{ virtualbox_version_output.stdout }} installed successfully!"
