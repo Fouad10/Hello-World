@@ -1,16 +1,26 @@
 ---
-- name: Uninstall 7-Zip on CentOS Stream 9
-  hosts: all
+- name: windows target
+  hosts: localhost
   become: false
   gather_facts: true
 
   tasks:
-    - name: Install Chocolatey
-      win_chocolatey:
-        name: chocolatey
+    - name: Add Microsoft GPG key
+      rpm_key:
+        key: "https://packages.microsoft.com/keys/microsoft.asc"
         state: present
-
-    - name: Uninstall 7-Zip
-      win_chocolatey:
-        name: 7zip
+  
+    - name: Add VSCode repository
+      yum_repository:
+        name: "vscode"
+        description: "Visual Studio Code"
+        baseurl: "https://packages.microsoft.com/yumrepos/vscode"
+        gpgcheck: yes
+        gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+        enabled: yes
+        state: present
+  
+    - name: Install VSCode
+      yum:
+        name: code
         state: present
