@@ -1,7 +1,7 @@
 ---
 - name: Uinstall Visual Studio Code on Windows
   hosts: all
-  gather_facts:
+  gather_facts: true
     timeout: 60
   become: false
 
