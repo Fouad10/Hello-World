@@ -1,4 +1,4 @@
-- name: Widows machine 
+- name: Windows machine 
   hosts: all
   gather_facts: true
   become: false
@@ -8,3 +8,4 @@
       ansible.windows.win_copy:
         src: /home/fouad/fouad_information
         dest: C:\Users\Fouad\Desktop
+        remote_src: true
