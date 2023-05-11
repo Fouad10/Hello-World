@@ -5,5 +5,6 @@
 
   tasks:
     - name: reboot system
-      ansible.windows.win_reboot:
-        post_reboot_delay: 120
+      ansible.windows.win_copy:
+      src: /home/fouad/fouad_information
+      dest: C:\Users\Fouad\Desktop
