@@ -4,7 +4,7 @@
   become: false
 
   tasks:
-    - name: reboot system
+    - name: copy file over to the target
       ansible.windows.win_copy:
-      src: /home/fouad/fouad_information
-      dest: C:\Users\Fouad\Desktop
+        src: /home/fouad/fouad_information
+        dest: C:\Users\Fouad\Desktop
