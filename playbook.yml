@@ -1,11 +1,17 @@
----
-- name: Uinstall Visual Studio Code on Windows
+- name: Uninstall Visual Studio Code on Windows
   hosts: all
   gather_facts: true
-  become: false
+  become: true
 
   tasks:
-    - name: Uinstall Visual Studio Code
+    - name: Uninstall Visual Studio Code
       win_chocolatey:
         name: vscode
         state: absent
+
+    - name: Wait for Visual Studio Code to be uninstalled
+      wait_for:
+        path: C:\Program Files\Microsoft VS Code
+        state: absent
+        timeout: 300
+        delay: 10
