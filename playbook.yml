@@ -1,18 +1,15 @@
 ---
-- name: Install PyCharm on Windows target
-  hosts: all
-  become: false
+- name: Install Visual Studio Code on Windows
+  hosts: windows
   gather_facts: true
+  become: false
+
   tasks:
     - name: Install Chocolatey package manager
       win_shell: |
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-    - name: Install PyCharm
+    - name: Install Visual Studio Code
       win_chocolatey:
-        name: pycharm-community
-        version: "{{ pycharm_version }}"
+        name: vscode
         state: present
-
-  vars:
-    pycharm_version: "2021.1.3"
